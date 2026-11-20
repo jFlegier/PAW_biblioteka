@@ -10,13 +10,76 @@
 {% block content %}
 
     <section>
+        <form
+            class="search-form"
+            method="get"
+        >
+
+            <div>
+                <label for="query">
+                    Tytuł:
+                </label>
+
+                <input
+                    type="text"
+                    id="query"
+                    name="query"
+                    value="{{ query }}"
+                    placeholder="np. Solaris"
+                >
+            </div>
+
+            <div>
+                <label for="available">
+                    Dostępność:
+                </label>
+
+                <select
+                    id="available"
+                    name="available"
+                >
+                    <option value="">
+                        Wszystkie
+                    </option>
+
+                    <option
+                        value="yes"
+                        {% if available_filter == "yes" %}
+                            selected
+                        {% endif %}
+                    >
+                        Dostępne
+                    </option>
+
+                    <option
+                        value="no"
+                        {% if available_filter == "no" %}
+                            selected
+                        {% endif %}
+                    >
+                        Niedostępne
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit">
+                Szukaj
+            </button>
+            <a
+                class="button-link"
+                href="{% url 'book_list' %}"
+            >
+                Wyczyść
+            </a>
+
+        </form>
         <h2>Lista książek</h2>
 
         <div class="book-list">
 
             {% for book in books %}
 
-                <article class="book-card">
+               <article class="book-card">
 
                     <h3>
                         {{ book.title }}
@@ -30,23 +93,20 @@
                         </p>
 
                         <p>
-                            <strong>Rok wydania:</strong>
+                            <strong>Rok:</strong>
                             {{ book.year }}
-                        </p>
-
-                        <p>
-                            <strong>Dostępność:</strong>
-
-                            {% if book.available %}
-                                Dostępna
-                            {% else %}
-                                Niedostępna
-                            {% endif %}
                         </p>
 
                     </div>
 
-</article>
+                    <a
+                        class="button-link"
+                        href="{% url 'book_detail' book.id %}"
+                    >
+                        Szczegóły
+                    </a>
+
+                </article>
 
             {% endfor %}
 
